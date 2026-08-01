@@ -52,6 +52,12 @@ dependencies {
 
     implementation("androidx.compose.material:material-icons-extended:1.7.0")
 
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.logging.interceptor)
+
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)
