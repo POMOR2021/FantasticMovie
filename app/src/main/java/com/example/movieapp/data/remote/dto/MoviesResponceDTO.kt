@@ -1,4 +1,4 @@
 data class MovieResponseDto(
-    val Search: List<MovieDto>,
-    val Response: String
+    val page: Int,
+    val results: List<MovieDto>
 )

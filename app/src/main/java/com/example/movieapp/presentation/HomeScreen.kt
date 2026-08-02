@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,17 +16,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.movieapp.viewModels.MovieViewModel
 
 @Composable
 fun HomeScreen(
-    viewModel: MovieViewModel = viewModel()
+    viewModel: MovieViewModel = viewModel(),
+    navController: NavController
 ) {
     Scaffold(
         topBar = {
@@ -37,22 +42,30 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            items(viewModel.movies) { movie ->
+            items(viewModel.movies, key = {it.id}) { movie ->
                 ListItem(
                     headlineContent = {
                         Text(
-                            text = movie.Title,
+                            text = movie.title,
                             fontSize = 18.sp
                         )
                     },
                     leadingContent = {
                         AsyncImage(
-                            model = movie.Poster,
-                            contentDescription = "Обложка фильма ${movie.Title}",
+                            model = movie.poster_path?.let {
+                                "https://image.tmdb.org/t/p/w154$it"
+                            },
+                            contentDescription = "Обложка фильма ${movie.title}",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.size(width = 50.dp, height = 75.dp)
                         )
-                    }
+                    },
+                    modifier = Modifier
+                        .clickable(
+                            onClick = {
+                                navController.navigate("details")
+                            }
+                        )
                 )
             }
         }

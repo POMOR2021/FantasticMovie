@@ -13,22 +13,32 @@ class MovieViewModel : ViewModel() {
     var movies by mutableStateOf<List<MovieDto>>(emptyList())
         private set
 
+    var searchText by mutableStateOf("")
+        private set
+
     init {
         viewModelScope.launch {
             try {
-                val response = RetrofitInstance.api.searchMovies(
-                    apiKey = "8cb8bc6",
-                    search = "spider"
-                )
-
-                if (response.Search != null) {
-                    movies = response.Search
-                    Log.d("TMDB", "Успешно загружено фильмов: ${movies.size}")
-                } else {
-                    Log.e("TMDB", "Сервер вернул пустой список Search")
-                }
+                movies = RetrofitInstance.api.getPopularMovies().results
             } catch (e: Exception) {
                 Log.e("TMDB", "Ошибка сети: ${e.message ?: "Error"}")
+            }
+        }
+
+
+    }
+    fun searchMovies(query: String) {
+        searchText = query
+
+        viewModelScope.launch {
+            try {
+                movies = if (query.isBlank()) {
+                    RetrofitInstance.api.getPopularMovies().results
+                } else {
+                    RetrofitInstance.api.searchMovies(query).results
+                }
+            } catch (e: Exception) {
+                Log.e("TMDB", e.toString())
             }
         }
     }

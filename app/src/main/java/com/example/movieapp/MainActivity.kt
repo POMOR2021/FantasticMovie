@@ -27,6 +27,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.movieapp.presentation.DetailsScreen
 import com.example.movieapp.presentation.FavoriteScreen
 import com.example.movieapp.presentation.HomeScreen
 import com.example.movieapp.presentation.SearchScreen
@@ -93,13 +94,16 @@ class MainActivity : ComponentActivity() {
                 startDestination = "home"
             ) {
                 composable(BottomNavItem.Home.route) {
-                    HomeScreen()
+                    HomeScreen(navController = navController)
                 }
                 composable(BottomNavItem.Search.route) {
                     SearchScreen()
                 }
                 composable(BottomNavItem.Favorite.route) {
                     FavoriteScreen()
+                }
+                composable("details") {
+                    DetailsScreen()
                 }
             }
         }

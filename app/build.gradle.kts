@@ -11,6 +11,15 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("C:\\Users\\konuh\\pathToKeys\\MovieAppKey")
+            storePassword = "191611"
+            keyAlias = "key0"
+            keyPassword = "191611"
+        }
+    }
+
     defaultConfig {
         applicationId = "com.example.movieapp"
         minSdk = 24
@@ -23,6 +32,7 @@ android {
 
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("release")
             optimization {
                 enable = false
             }
